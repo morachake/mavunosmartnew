@@ -45,14 +45,23 @@ class LogoutView(APIView):
 class AddFarmDataView(generics.CreateAPIView):
     queryset = FarmData.objects.all()
     serializer_class = FarmDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class PaymentDataView(generics.CreateAPIView):
     queryset = PaymentData.objects.all()
     serializer_class = PaymentDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class PersonalDetailsView(generics.RetrieveUpdateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user.profile
@@ -60,3 +69,7 @@ class PersonalDetailsView(generics.RetrieveUpdateAPIView):
 class FarmMappingView(generics.ListCreateAPIView):
     queryset = FarmMapping.objects.all()
     serializer_class = FarmMappingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

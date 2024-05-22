@@ -1,5 +1,3 @@
-# mavuno_smart_api/serializers.py
-
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from mavuno_smart.models import FarmData, PaymentData, UserProfile, FarmMapping
@@ -26,19 +24,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 class FarmDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = FarmData
-        fields = '__all__'
+        fields = ['farm_name', 'location', 'crop_type', 'area', 'yield_amount', 'date_planted', 'date_harvested']    
 
 class PaymentDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentData
-        fields = '__all__'
+        fields = ['payment_info']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['bio', 'contact_number', 'adress']
 
 class FarmMappingSerializer(serializers.ModelSerializer):
     class Meta:
         model = FarmMapping
-        fields = '__all__'
+        fields = ['mapping_data']
