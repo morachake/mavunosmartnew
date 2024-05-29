@@ -1,11 +1,13 @@
+# mavuno_smart_api/views.py
+
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from mavuno_smart.models import FarmData, PaymentData, UserProfile, FarmMapping
-from .serializers import UserSerializer, RegisterSerializer, FarmDataSerializer, PaymentDataSerializer, UserProfileSerializer, FarmMappingSerializer
+from mavuno_smart.models import Farm, FarmData, PaymentData, UserProfile, FarmMapping
+from .serializers import UserSerializer, RegisterSerializer, FarmSerializer, FarmDataSerializer, PaymentDataSerializer, UserProfileSerializer, FarmMappingSerializer
 
 class AuthView(APIView):
     def post(self, request):
@@ -30,7 +32,7 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class LogoutView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated ,)
 
     def post(self, request):
         try:
@@ -42,21 +44,44 @@ class LogoutView(APIView):
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class AddFarmDataView(generics.CreateAPIView):
-    queryset = FarmData.objects.all()
-    serializer_class = FarmDataSerializer
+class FarmViewSet(generics.ListCreateAPIView):
+    queryset = Farm.objects.all()
+    serializer_class = FarmSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class PaymentDataView(generics.CreateAPIView):
+class FarmDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Farm.objects.all()
+    serializer_class = FarmSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FarmDataViewSet(generics.ListCreateAPIView):
+    queryset = FarmData.objects.all()
+    serializer_class = FarmDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+class FarmDataDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FarmData.objects.all()
+    serializer_class = FarmDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class PaymentDataViewSet(generics.ListCreateAPIView):
     queryset = PaymentData.objects.all()
     serializer_class = PaymentDataSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class PaymentDataDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PaymentData.objects.all()
+    serializer_class = PaymentDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class PersonalDetailsView(generics.RetrieveUpdateAPIView):
     queryset = UserProfile.objects.all()
@@ -66,10 +91,15 @@ class PersonalDetailsView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user.profile
 
-class FarmMappingView(generics.ListCreateAPIView):
+class FarmMappingViewSet(generics.ListCreateAPIView):
     queryset = FarmMapping.objects.all()
     serializer_class = FarmMappingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save()
+
+class FarmMappingDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FarmMapping.objects.all()
+    serializer_class = FarmMappingSerializer
+    permission_classes = [permissions.IsAuthenticated]

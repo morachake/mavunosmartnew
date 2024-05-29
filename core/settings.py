@@ -60,7 +60,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mavuno_smart',
+        'NAME': 'mavunosmart',
         'USER': 'postgres',
         'PASSWORD': '@Moracha100',
         'HOST': 'localhost',
