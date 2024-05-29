@@ -1,5 +1,3 @@
-# mavuno_smart/models.py
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import  timezone
@@ -8,10 +6,10 @@ class FarmData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='farmdata')
     farm_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    crop_type = models.CharField(max_length=100, default="unknown")  # Added default value
-    area = models.FloatField(default=0.0)  # Added default value
-    yield_amount = models.FloatField(default=0.0)  # Added default value
-    date_planted = models.DateField(default=timezone.now)  # Added default value
+    crop_type = models.CharField(max_length=100, default="unknown")
+    area = models.FloatField(default=0.0)  
+    yield_amount = models.FloatField(default=0.0)  
+    date_planted = models.DateField(default=timezone.now)  
     date_harvested = models.DateField(null=True, blank=True)
 
     def __str__(self):
