@@ -8,8 +8,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from mavuno_smart.models import Farm, FarmData, PaymentData, UserProfile, FarmMapping
 from .serializers import UserSerializer, RegisterSerializer, FarmSerializer, FarmDataSerializer, PaymentDataSerializer, UserProfileSerializer, FarmMappingSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 class AuthView(APIView):
+    @swagger_auto_schema(
+        operation_description="Authenticate a user and return a JWT token",
+        responses={200: UserSerializer()}
+    )
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -34,6 +38,10 @@ class RegisterView(generics.CreateAPIView):
 class LogoutView(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
 
+    @swagger_auto_schema(
+        operation_description="Logout a user and invalidate the JWT token",
+        responses={205: 'Logged out'}
+    )
     def post(self, request):
         try:
             refresh_token = request.data["refresh_token"]
@@ -49,6 +57,11 @@ class FarmViewSet(generics.ListCreateAPIView):
     serializer_class = FarmSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    @swagger_auto_schema(
+        operation_description="Retrieve a list of farms or new farmer for the authenticated user",
+        responses={200: FarmSerializer(many=True)}
+    )
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -62,6 +75,11 @@ class FarmDataViewSet(generics.ListCreateAPIView):
     serializer_class = FarmDataSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    @swagger_auto_schema(
+        operation_description="Retrieve a list of farm data for the authenticated user",
+        responses={200: FarmDataSerializer(many=True)}
+    )
+
     def perform_create(self, serializer):
         serializer.save()
 
@@ -74,6 +92,11 @@ class PaymentDataViewSet(generics.ListCreateAPIView):
     queryset = PaymentData.objects.all()
     serializer_class = PaymentDataSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Retrieve a list of payment data for the authenticated user",
+        responses={200: PaymentDataSerializer(many=True)}
+    )
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -96,6 +119,11 @@ class FarmMappingViewSet(generics.ListCreateAPIView):
     serializer_class = FarmMappingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    @swagger_auto_schema(
+        operation_description="Retrieve a list of farm mappings for the authenticated user",
+        responses={200: FarmMappingSerializer(many=True)}
+    )
+    
     def perform_create(self, serializer):
         serializer.save()
 

@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',  
     'mavuno_smart',  
     'mavuno_smart_api',
+    'drf_yasg',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
