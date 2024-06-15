@@ -63,11 +63,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mavunosmart',
         'USER': 'postgres',
-        'PASSWORD': '@Moracha100',
+        'PASSWORD': 'moracha100', 
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
