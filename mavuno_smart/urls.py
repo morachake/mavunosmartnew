@@ -8,4 +8,6 @@ app_name = 'mavuno_smart'
 urlpatterns = [
     # Example path for your main app
     # path('', views.home, name='home'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+
 ]
