@@ -1,3 +1,5 @@
+# Dockerfile
+
 # Use the official Python image from the Docker Hub
 FROM python:3.10-slim
 
@@ -30,6 +32,9 @@ RUN chmod +x /entrypoint.sh
 
 # Ensure the static and staticfiles directories exist
 RUN mkdir -p static staticfiles
+
+# Collect static files (for production)
+RUN python manage.py collectstatic --noinput
 
 # Set entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
