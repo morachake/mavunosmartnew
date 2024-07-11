@@ -1,13 +1,10 @@
-# mavuno_smart/urls.py
-
 from django.urls import path
 from . import views
 
 app_name = 'mavuno_smart'
 
 urlpatterns = [
-    # Example path for your main app
-    # path('', views.home, name='home'),
     path('dashboard/', views.dashboard_view, name='dashboard'),
-
+    path('dashboard/charts/', views.charts_view, name='charts'),
+    path('dashboard/tables/', views.tables_view, name='tables'),
 ]
