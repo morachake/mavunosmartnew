@@ -1,0 +1,22 @@
+version: '3'
+services:
+  bookapi:
+    build:
+      context: ./store
+      dockerfile: Dockerfile
+      cache_from:
+        - '${MAVUNO_SMART_API_IMAGE}'
+    image: '${MAVUNO_SMART_API_IMAGE}'
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 80
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+      cache_from:
+        - '${DJANGO_TUTORIAL_NGINX_IMAGE}'
+    image: '${DJANGO_TUTORIAL_NGINX_IMAGE}'
+    ports:
+      - 80:80
